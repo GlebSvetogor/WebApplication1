@@ -11,14 +11,21 @@ namespace DataLayer
 
         public EFDBContext(DbContextOptions<EFDBContext> options) : base(options) { }
 
+        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        //=> optionsBuilder.UseSqlServer("");
+
+        //protected override void OnModelCreating(ModelBuilder modelBuilder) { }
+
     }
+
+    
 
     public class EFDBContextFactory : IDesignTimeDbContextFactory<EFDBContext>
     {
         public EFDBContext CreateDbContext(string[] args)
         {
             var optionsBuilder  = new DbContextOptionsBuilder<EFDBContext>();
-            optionsBuilder.UseSqlServer("");
+            optionsBuilder.UseSqlServer("Server=(localdb);Database=WebApp1;Trusted_Connection=True");
 
             return new EFDBContext(optionsBuilder.Options);
         }
