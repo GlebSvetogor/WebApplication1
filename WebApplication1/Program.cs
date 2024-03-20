@@ -1,7 +1,12 @@
+using Microsoft.Extensions.Options;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+var connection = Configuration.GetConnectionString("DefaultConnection");
+optionsBuilder.UseSqlServer("Data Source=(local); Database=WebApp1; Persist Security Info=false; User ID='sa'; Password='sa'; MultipleActiveResultSets=True; Trusted_Connection=False; TrustServerCertificate=True");
+
 
 var app = builder.Build();
 
