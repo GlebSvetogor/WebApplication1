@@ -1,11 +1,21 @@
+using DataLayer;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-var connection = Configuration.GetConnectionString("DefaultConnection");
-optionsBuilder.UseSqlServer("Data Source=(local); Database=WebApp1; Persist Security Info=false; User ID='sa'; Password='sa'; MultipleActiveResultSets=True; Trusted_Connection=False; TrustServerCertificate=True");
+var connection = builder.Configuration.GetConnectionString("DefaultConnection");
+
+var optionsBuilder = new DbContextOptionsBuilder<EFDBContext>();
+
+var options = optionsBuilder.UseSqlServer(connection).Options;
+
+using (EFDBContext db = new EFDBContext(options))
+{
+    SampleData.InitData(db);
+}
 
 
 var app = builder.Build();
